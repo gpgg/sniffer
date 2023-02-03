@@ -1,6 +1,6 @@
+use std::env;
 use std::net::{IpAddr, TcpStream};
 use std::str::FromStr;
-use std::env;
 use std::sync::mpsc::{channel, Sender};
 use std::thread;
 
@@ -18,38 +18,44 @@ impl Arguments {
         } else if args.len() > 4 {
             return Err("too many arguments");
         }
-        
+
         let f = args[1].clone();
 
         if let Ok(ipaddr) = IpAddr::from_str(&f) {
-            return Ok(Arguments {ipaddr, num_threads: 4});
+            return Ok(Arguments {
+                ipaddr,
+                num_threads: 4,
+            });
         } else {
             let flag = args[1].clone();
             if flag.contains("-h") || flag.contains("--help") && args.len() == 2 {
-                println!("Usage: 
+                println!(
+                    "Usage: 
     -n to select how many threads you want 
-    -h or --help to show help information.");
+    -h or --help to show help information."
+                );
                 return Err("help");
             } else if flag.contains("-h") || flag.contains("--help") {
                 return Err("too many arguments");
             } else if flag.contains("-n") {
                 let ipaddr = match IpAddr::from_str(&args[3]) {
                     Ok(s) => s,
-                    Err(_) => return Err("not a valid IP address; must be IPv4 or IPv6")
+                    Err(_) => return Err("not a valid IP address; must be IPv4 or IPv6"),
                 };
                 let num_threads = match args[2].parse::<u16>() {
                     Ok(n) => n,
-                    Err(_) => return Err("failed to parse thread number")
+                    Err(_) => return Err("failed to parse thread number"),
                 };
-                return Ok(Arguments { ipaddr, num_threads })
+                return Ok(Arguments {
+                    ipaddr,
+                    num_threads,
+                });
             } else {
                 return Err("invalid syntax");
             }
         }
-
     }
 }
-
 
 pub fn get_args() -> Vec<String> {
     let args: Vec<String> = env::args().collect();
