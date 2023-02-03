@@ -1,7 +1,7 @@
 # Sniffer
 
 ![sniffer](./sniffer.gif)
-A simple ip port sniffer.
+A simple ip port scanner.
 
 ## Usage
 
