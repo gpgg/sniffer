@@ -28,5 +28,5 @@ sn 192.168.1.1
 Example:
 
 ```
-sn -n 100 192.168.1.1 // -j: specify the number of threads
+sn -n 100 192.168.1.1 // -n: specify the number of threads
 ```
