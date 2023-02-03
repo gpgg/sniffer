@@ -3,7 +3,6 @@ use std::str::FromStr;
 use std::env;
 use std::sync::mpsc::{channel, Sender};
 use std::thread;
-use std::io::{self, Write};
 
 const MAX: u16 = 65535; // max port number
 
@@ -69,16 +68,9 @@ pub fn run(args: &Arguments) {
         });
     }
 
-    let mut out = vec![];
     drop(tx);
     for port in rx {
-        out.push(port);
-    }
-
-    println!("");
-    out.sort();
-    for v in out {
-        println!("{} is open! 🐶", v);
+        println!("{} is open! 🐶", port);
     }
 }
 
@@ -90,8 +82,6 @@ fn scan(tx: Sender<u16>, start_port: u16, addr: IpAddr, num_threads: u16) {
     loop {
         match TcpStream::connect((addr, port)) {
             Ok(_) => {
-                print!(".");
-                io::stdout().flush().unwrap();
                 tx.send(port).unwrap();
             }
             Err(_) => {}

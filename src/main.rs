@@ -1,6 +1,5 @@
 use std::process;
 
-
 fn main() {
     let args = sn::get_args();
     let program = args[0].clone();
